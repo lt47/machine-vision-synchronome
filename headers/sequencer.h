@@ -1,6 +1,7 @@
 #ifndef _SEQUENCER_
 #define _SEQUENCER_
 
+
 // This is necessary for CPU affinity macros in Linux
 #define _GNU_SOURCE
 
@@ -26,5 +27,23 @@
 #define MY_CLOCK_TYPE CLOCK_MONOTONIC_RAW
 //#define MY_CLOCK_TYPE CLOCK_REALTIME_COARSE
 //#define MY_CLOCK_TYPE CLOCK_MONTONIC_COARSE
+
+void Sequencer(int id);
+
+void *Service_1_frame_acquisition(void *threadp);
+void *Service_2_frame_process(void *threadp);
+void *Service_3_frame_storage(void *threadp);
+
+int seq_frame_read(void);
+int seq_frame_process(void);
+int seq_frame_store(void);
+
+double getTimeMsec(void);
+double realtime(struct timespec *tsptr);
+void print_scheduler(void);
+
+int v4l2_frame_acquisition_initialization(char *dev_name);
+int v4l2_frame_acquisition_shutdown(void);
+int v4l2_frame_acquisition_loop(char *dev_name);
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef _CAPTURELIB_
 #define _CAPTURELIB_
 
+#endif
+
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 
 #define MAX_HRES (1920)
@@ -31,4 +33,4 @@
 static struct v4l2_format fmt;
 struct v4l2_buffer frame_buf;
 
-#endif
+
