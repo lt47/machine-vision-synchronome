@@ -10,19 +10,18 @@ HFILES= headers/sequencer.h headers/capturelib.c
 CFILES= source/sequencer.c source/capturelib.c
 
 SRCS= ${HFILES} ${CFILES}
-OBJS= ${CFILES:.c=.o}
+OBJS= $(patsubst source/%.c,object/%.o,$(CFILES))
 
 all:	sequencer
 
 clean:
-	-rm -f *.o *.d frames/*.ppm
+	-rm -f object/*.o *.d frames/*.ppm
 	-rm -f sequencer 
 
 sequencer: $(OBJS)
-	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ $@.o capturelib.o -lpthread -lrt
+	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ $(OBJS) -lpthread -lrt
+
+object/%.o: source/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 depend:
-
-.c.o:
-	$(CC) $(CFLAGS) -c $<
-
