@@ -62,10 +62,10 @@ static double fnow=0.0, fstart=0.0, fstop=0.0;
 static struct timespec time_now, time_start, time_stop;
 
 char ppm_header[]="P6\n#9999999999 sec 9999999999 msec \n"HRES_STR" "VRES_STR"\n255\n";
-char ppm_dumpname[]="../frames/test0000.ppm";
+char ppm_dumpname[]="frames/test0000.ppm";
 
 char pgm_header[]="P5\n#9999999999 sec 9999999999 msec \n"HRES_STR" "VRES_STR"\n255\n";
-char pgm_dumpname[]="../frames/test0000.pgm";
+char pgm_dumpname[]="frames/test0000.pgm";
 
 // always ignore STARTUP_FRAMES while camera adjusts to lighting, focuses, etc.
 int read_framecnt=-STARTUP_FRAMES;
