@@ -300,8 +300,9 @@ static int process_image(const void *p, int size)
             // Y1=first byte and Y2=third byte
             scratchpad_buffer[newi]=frame_ptr[i];
             scratchpad_buffer[newi+1]=frame_ptr[i+2];
-	    process_motion_detection(scratchpad_buffer, size/2);
         }
+
+        process_motion_detection(scratchpad_buffer, size/2);
 #endif
     }
 

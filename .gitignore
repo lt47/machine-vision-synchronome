@@ -55,5 +55,5 @@ dkms.conf
 *.dwo
 
 # output frames
-frames/*.ppm
-frames/*.pgm
+#frames/*.ppm
+#frames/*.pgm
