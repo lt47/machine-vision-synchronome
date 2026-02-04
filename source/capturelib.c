@@ -217,7 +217,6 @@ static int save_image(const void *p, int size, struct timespec *frame_time)
     save_framecnt++;
     printf("save frame %d: ", save_framecnt);
     
-    dump_pgm(motion_buffer.frames[most_recent_idx], (size/2), save_framecnt, frame_time);
 
 #ifdef DUMP_FRAMES	
 
@@ -241,9 +240,9 @@ static int save_image(const void *p, int size, struct timespec *frame_time)
 #elif defined(COLOR_CONVERT_GRAY)
         if(save_framecnt > 0)
         {  
-            dump_pgm(motion_buffer.frames[most_recent_idx], (size/2), save_framecnt, frame_time);
+            dump_pgm(motion_buffer.frames[most_recent_idx], HRES*VRES, save_framecnt, frame_time);
            // dump_pgm(frame_ptr, (size/2), process_framecnt, frame_time);
-            printf("Dump YUYV converted to YY size %d\n", size);
+            printf("Dump YUYV converted to YY size %d\n", HRES*VRES);
         }
 #endif
 
