@@ -1,7 +1,6 @@
 #ifndef _CAPTURELIB_
 #define _CAPTURELIB_
 
-#endif
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 
@@ -23,7 +22,9 @@
 
 #define FRAMES_PER_SEC (1) 
 
-#define COLOR_CONVERT_RGB
+//#define COLOR_CONVERT_RGB
+#define COLOR_CONVERT_GRAY
+
 #define DUMP_FRAMES
 
 #define DRIVER_MMAP_BUFFERS (6)  // request buffers for delay
@@ -34,3 +35,5 @@ static struct v4l2_format fmt;
 struct v4l2_buffer frame_buf;
 
 
+
+#endif
