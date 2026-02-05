@@ -20,12 +20,12 @@
 
 #include <time.h>
 #include "../headers/v4l2_interface.h"
-//#include "../headers/capturelib.h"
+#include "../headers/capturelib.h"
 
 
-static int              camera_device_fd = -1;
-static unsigned int     n_buffers;
-static int              force_format=1;
+int              camera_device_fd = -1;
+unsigned int     n_buffers;
+int              force_format=1;
 
 struct buffer
 {
@@ -52,10 +52,12 @@ struct ring_buffer_t
 };
 
 
-static  struct ring_buffer_t	ring_buffer;
+struct ring_buffer_t	ring_buffer;
 
-static double fnow=0.0, fstart=0.0, fstop=0.0;
-static struct timespec time_now, time_start, time_stop;
+
+
+//double fnow=0.0, fstart=0.0, fstop=0.0;
+//struct timespec time_now, time_start, time_stop;
 
 
 // Format is used by a number of functions, so made as a file global

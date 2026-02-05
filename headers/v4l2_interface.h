@@ -26,12 +26,15 @@
 struct v4l2_format;
 struct v4l2_buffer;
 struct buffer;
+struct ring_buffer_t;
+
 extern struct v4l2_format fmt;
 extern struct v4l2_buffer frame_buf;
 
 extern int read_framecnt;
 
 extern struct buffer          *buffers;
+extern struct ring_buffer_t ring_buffer;
 
 void errno_exit(const char *s);
 

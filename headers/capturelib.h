@@ -28,7 +28,10 @@
 
 
 
-
-
+struct timespec;
+extern int camera_device_fd;
+extern unsigned int n_buffers;
+extern double fnow, fstart, fstop;
+extern struct timespec time_now, time_start, time_stop;
 
 #endif
