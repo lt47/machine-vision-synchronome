@@ -6,8 +6,8 @@ CDEFS=
 CFLAGS= -O0 -g $(INCLUDE_DIRS) $(CDEFS)
 LIBS= 
 
-HFILES= headers/sequencer.h headers/capturelib.c
-CFILES= source/sequencer.c source/capturelib.c
+HFILES= headers/sequencer.h headers/capturelib.h headers/v4l2_interface.h
+CFILES= source/sequencer.c source/v4l2_interface.c source/capturelib.c
 
 SRCS= ${HFILES} ${CFILES}
 OBJS= $(patsubst source/%.c,object/%.o,$(CFILES))
