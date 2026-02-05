@@ -15,7 +15,7 @@ OBJS= $(patsubst source/%.c,object/%.o,$(CFILES))
 all:	sequencer
 
 clean:
-	-rm -f object/*.o *.d frames/*.ppm
+	-rm -f object/*.o *.d frames/*.ppm frames/*.pgm
 	-rm -f sequencer 
 
 sequencer: $(OBJS)
