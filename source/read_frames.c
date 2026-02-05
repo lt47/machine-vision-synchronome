@@ -33,25 +33,6 @@ struct buffer
 };
 
 
-struct save_frame_t
-{
-    unsigned char   frame[HRES*VRES*PIXEL_SIZE];
-    struct timespec time_stamp;
-    char identifier_str[80];
-};
-
-struct ring_buffer_t
-{
-    unsigned int ring_size;
-
-    int tail_idx;
-    int head_idx;
-    int count;
-
-    struct save_frame_t save_frame[3*FRAMES_PER_SEC];
-};
-
-
 double fnow=0.0, fstart=0.0, fstop=0.0;
 struct timespec time_now, time_start, time_stop;
 

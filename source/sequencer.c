@@ -17,6 +17,8 @@
 #include <signal.h>
 
 #include "../headers/sequencer.h"
+#include "../headers/process_frame.h"
+
 
 int abortTest = FALSE;
 int abortS1 = FALSE, abortS2 = FALSE, abortS3 = FALSE;

@@ -28,6 +28,24 @@ struct v4l2_buffer;
 struct buffer;
 struct ring_buffer_t;
 
+struct save_frame_t
+{
+    unsigned char   frame[HRES*VRES*PIXEL_SIZE];
+    struct timespec time_stamp;
+    char identifier_str[80];
+};
+
+struct ring_buffer_t
+{
+    unsigned int ring_size;
+
+    int tail_idx;
+    int head_idx;
+    int count;
+
+    struct save_frame_t save_frame[3*FRAMES_PER_SEC];
+};
+
 extern struct v4l2_format fmt;
 extern struct v4l2_buffer frame_buf;
 
