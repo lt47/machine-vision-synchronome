@@ -44,6 +44,8 @@ struct v4l2_format fmt;
 struct v4l2_buffer frame_buf;
 
 struct buffer          *buffers;
+struct ring_buffer_t ring_buffer; 
+
 int read_framecnt = -STARTUP_FRAMES;
 
 void errno_exit(const char *s)

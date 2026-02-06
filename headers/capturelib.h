@@ -35,6 +35,5 @@ extern double fnow, fstart, fstop;
 extern struct timespec time_now, time_start, time_stop;
 
 
-extern unsigned char scratchpad_buffer;
 
 #endif

@@ -24,6 +24,13 @@
 #include "../headers/process_frame.h"
 
 
+
+struct motion_buffer_t motion_buffer = {
+    .ring_size = 2,
+    .tail_idx = 0,
+    .count = 0
+};
+
 unsigned char scratchpad_buffer[MAX_HRES*MAX_VRES*MAX_PIXEL_SIZE];
 int process_framecnt=0;
 
@@ -55,6 +62,101 @@ void yuv2rgb(int y, int u, int v, unsigned char *r, unsigned char *g, unsigned c
 }
 
 
+
+/**
+ * process_motion_detection - Analyzes frame differences for motion detection
+ *
+ * This function takes the current frame from scratchpad_buffer and:
+ * 1. If it's the first frame, simply stores it in the motion buffer
+ * 2. If there are existing frames, computes the absolute difference with the most recent frame
+ * 3. Calculates the percentage difference and prints success if > 0.5%
+ *
+ * @param current_frame: Pointer to the current frame data (grayscale)
+ * @param frame_size: Size of the frame in bytes (should be HRES*VRES for grayscale)
+ *
+ * @return: 0 on first frame, 1 if motion detected (diff > 0.5%), -1 if no significant motion
+ */
+int process_motion_detection(const unsigned char *current_frame, int frame_size)
+{
+    unsigned int diffsum = 0;
+    double diff_percentage = 0.0;
+    int i;
+    int current_idx = motion_buffer.tail_idx;
+    int prev_idx;
+    unsigned int max_possible_diff;
+
+    // If this is the first frame, just store it
+    if (motion_buffer.count == 0)
+    {
+        // Copy current frame to motion buffer
+        memcpy(motion_buffer.frames[current_idx], current_frame, frame_size);
+
+        motion_buffer.tail_idx = (motion_buffer.tail_idx + 1) % motion_buffer.ring_size;
+        motion_buffer.count++;
+
+        printf("Motion detection: First frame stored (no comparison yet)\n");
+        return 0;
+    }
+
+    // Get the previous frame index (most recent frame in buffer)
+    prev_idx = (current_idx - 1 + motion_buffer.ring_size) % motion_buffer.ring_size;
+
+    // Compute absolute difference sum between current and previous frame
+    for (i = 0; i < frame_size; i++)
+    {
+        int diff = abs((int)current_frame[i] - (int)motion_buffer.frames[prev_idx][i]);
+        diffsum += diff;
+    }
+
+    // Calculate percentage difference
+    // Maximum possible difference = frame_size * 255 (every pixel differs by max amount)
+    max_possible_diff = frame_size * 255;
+    diff_percentage = (double)diffsum / (double)max_possible_diff * 100.0;
+
+    printf("Motion detection: diffsum=%u, percentage=%.3f%%", diffsum, diff_percentage);
+
+    // Check if difference exceeds threshold
+    if (diff_percentage > 0.5)
+    {
+        printf(" - SUCCESS: Motion detected!\n");
+
+        // Store current frame for next comparison
+        memcpy(motion_buffer.frames[current_idx], current_frame, frame_size);
+        motion_buffer.tail_idx = (motion_buffer.tail_idx + 1) % motion_buffer.ring_size;
+        if (motion_buffer.count < motion_buffer.ring_size) {
+            motion_buffer.count++;
+        }
+
+        return 1;
+    }
+    else
+    {
+        printf(" - No significant motion\n");
+
+        // Store current frame for next comparison
+        memcpy(motion_buffer.frames[current_idx], current_frame, frame_size);
+        motion_buffer.tail_idx = (motion_buffer.tail_idx + 1) % motion_buffer.ring_size;
+        if (motion_buffer.count < motion_buffer.ring_size) {
+            motion_buffer.count++;
+        }
+
+        return -1;
+    }
+}
+
+
+/**
+ * reset_motion_buffer - Resets the motion detection buffer
+ *
+ * Call this function to clear the motion buffer and start fresh
+ */
+void reset_motion_buffer(void)
+{
+    motion_buffer.tail_idx = 0;
+    motion_buffer.count = 0;
+    memset(motion_buffer.frames, 0, sizeof(motion_buffer.frames));
+    printf("Motion buffer reset\n");
+}
 
 static int process_image(const void *p, int size)
 {
@@ -142,4 +244,6 @@ int seq_frame_process(void)
 
     return cnt;
 }
+
+
 
