@@ -2,6 +2,9 @@
 #define _PROCESS_FRAME_
 
 
+#define HRES (640)
+#define VRES (480)
+
 struct motion_buffer_t
 {
     unsigned int ring_size;

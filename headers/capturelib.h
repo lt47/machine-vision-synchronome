@@ -8,8 +8,6 @@
 #define MAX_VRES (1080)
 #define MAX_PIXEL_SIZE (3)
 
-#define HRES (640)
-#define VRES (480)
 #define PIXEL_SIZE (2)
 #define HRES_STR "640"
 #define VRES_STR "480"
