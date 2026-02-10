@@ -116,7 +116,6 @@ int seq_frame_read(void)
         //syslog(LOG_CRIT, "read_framecnt=%d, rb.tail=%d, rb.head=%d, rb.count=%d at %lf and %lf FPS", read_framecnt, ring_buffer.tail_idx, ring_buffer.head_idx, ring_buffer.count, (fnow-fstart), (double)(read_framecnt) / (fnow-fstart));
         //syslog(LOG_CRIT, "read_framecnt=%d at %lf and %lf FPS", read_framecnt, (fnow-fstart), (double)(read_framecnt) / (fnow-fstart));
 
-        syslog(LOG_CRIT, "[COURSE #:%d][Final Project][Frame Count:%d][Image Capture Start Time:%lf seconds]", COURSE, read_framecnt, (fnow-fstart));
     }
     else 
     {

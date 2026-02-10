@@ -26,6 +26,7 @@
 // Format is used by a number of functions, so made as a file global
 //static struct v4l2_format fmt;
 //struct v4l2_buffer frame_buf;
+#define COURSE 4
 
 struct buffer
 {
@@ -196,6 +197,8 @@ int seq_frame_store(void)
         clock_gettime(CLOCK_MONOTONIC, &time_now);
         fnow = (double)time_now.tv_sec + (double)time_now.tv_nsec / 1000000000.0;
                 printf(" saved at %lf, @ %lf FPS\n", (fnow-fstart), (double)(process_framecnt+1) / (fnow-fstart));
+
+        syslog(LOG_CRIT, "[COURSE #:%d][Final Project][Frame Count:%d][Image Capture Start Time:%lf seconds]", COURSE, save_framecnt, (fnow-fstart));
     }
     else 
     {
