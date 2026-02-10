@@ -20,6 +20,8 @@
 #include "../headers/process_frame.h"
 
 
+#define COURSE 4
+
 int abortTest = FALSE;
 int abortS1 = FALSE, abortS2 = FALSE, abortS3 = FALSE;
 sem_t semS1, semS2, semS3;
@@ -238,9 +240,34 @@ void print_scheduler(void)
     }
 }
 
+void log_sysinfo(){
+	// char array used to store the response of 'uname -a'
+    char buffer[256];
+
+
+    // Get system info using uname and log the output
+    // Use popen to call 'uname -a' and read its output
+    FILE *fp = popen("uname -a", "r");
+    // Return error if the response of the command read into the FILE pointer is incorrect. 
+    if (fp == NULL)
+    {
+        perror("popen failed");
+        syslog(LOG_ERR, "[COURSE:%d] Failed to execute uname -a", COURSE);
+        exit(EXIT_FAILURE);
+    }
+
+    // Read and print the uname -a output into the buffer char array.
+    if (fgets(buffer, sizeof(buffer), fp) != NULL)
+    {
+        // log uname -a output to syslog.
+        syslog(LOG_INFO, "[COURSE #:%d][Final Project] %s", COURSE, buffer);
+    }
+    pclose(fp);
+	}
 
 void main(void)
 {
+    log_sysinfo();
     struct timespec current_time_val, current_time_res;
     double current_realtime, current_realtime_res;
 
