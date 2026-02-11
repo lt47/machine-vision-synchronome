@@ -293,17 +293,19 @@ void main(int argc, char *argv[])
 		val = strtol (argv[i], &next, 10);
 		switch(i){
 			case 1: 
-				if ((next == argv[i]) || (*next != '\0')) {
+				if ((next != argv[i]) || (*next == '\0')) {
 					frame_cap_frequency = val;
 				} else {
 					program_usage(argv[0]);
 				}
+				break;
 			case 2: 
-				if ((next == argv[i]) || (*next != '\0')) {
+				if ((next != argv[i]) || (*next == '\0')) {
 					num_frames_to_capture = val;
 				} else {
 					program_usage(argv[0]);
 				}
+				break;
 		}
 	}
 	struct timespec current_time_val, current_time_res;
