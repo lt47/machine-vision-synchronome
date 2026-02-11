@@ -18,7 +18,7 @@
 
 #include "../headers/sequencer.h"
 #include "../headers/process_frame.h"
-
+#include "../headers/capturelib.h"
 
 #define COURSE 4
 
@@ -330,7 +330,10 @@ void main(int argc, char *argv[])
 	pid_t mainpid;
 
 	v4l2_frame_acquisition_initialization(dev_name);
-
+        
+	// Initialize timing reference
+        clock_gettime(CLOCK_MONOTONIC, &time_start);
+        fstart = (double)time_start.tv_sec + (double)time_start.tv_nsec / 1000000000.0;
 	// required to get camera initialized and ready
 	seq_frame_read();
 
