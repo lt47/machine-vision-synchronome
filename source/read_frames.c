@@ -35,8 +35,8 @@ struct buffer
 };
 
 
-double fnow=0.0, fstart=0.0, fstop=0.0;
-struct timespec time_now, time_start, time_stop;
+//double fnow=0.0, fstart=0.0, fstop=0.0;
+//struct timespec time_now, time_start, time_stop;
 
 static int read_frame(void)
 {

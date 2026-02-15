@@ -332,9 +332,6 @@ void main(int argc, char *argv[])
 
 	v4l2_frame_acquisition_initialization(dev_name);
         
-	// Initialize timing reference
-        clock_gettime(CLOCK_MONOTONIC_RAW, &time_start);
-        fstart = (double)time_start.tv_sec + (double)time_start.tv_nsec / 1000000000.0;
 	// required to get camera initialized and ready
 	seq_frame_read();
 

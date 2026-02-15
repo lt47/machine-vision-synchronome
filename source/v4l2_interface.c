@@ -35,8 +35,8 @@ struct buffer
 
 
 
-//double fnow=0.0, fstart=0.0, fstop=0.0;
-//struct timespec time_now, time_start, time_stop;
+double fnow=0.0, fstart=0.0, fstop=0.0;
+struct timespec time_now, time_start, time_stop;
 
 
 // Format is used by a number of functions, so made as a file global
@@ -361,6 +361,11 @@ int v4l2_frame_acquisition_initialization(char *dev_name)
     init_device(dev_name);
 
     start_capturing();
+
+    clock_gettime(CLOCK_MONOTONIC_RAW, &time_start);
+    fstart = (double)time_start.tv_sec + (double)time_start.tv_nsec / 1000000000.0;
+    
+    return 0;
 }
 
 
