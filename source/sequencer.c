@@ -27,7 +27,7 @@ int abortS1 = FALSE, abortS2 = FALSE, abortS3 = FALSE;
 sem_t semS1, semS2, semS3;
 struct timespec start_time_val;
 double start_realtime;
-int acquisition_frequency = 20, frame_cap_frequency = 100, num_frames_to_capture = 1800;
+int acquisition_frequency = 4, frame_cap_frequency = 100, num_frames_to_capture = 1800;
 
 
 static timer_t timer_1;
@@ -333,7 +333,7 @@ void main(int argc, char *argv[])
 	v4l2_frame_acquisition_initialization(dev_name);
         
 	// Initialize timing reference
-        clock_gettime(CLOCK_MONOTONIC, &time_start);
+        clock_gettime(CLOCK_MONOTONIC_RAW, &time_start);
         fstart = (double)time_start.tv_sec + (double)time_start.tv_nsec / 1000000000.0;
 	// required to get camera initialized and ready
 	seq_frame_read();

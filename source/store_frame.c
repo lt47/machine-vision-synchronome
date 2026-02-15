@@ -191,6 +191,8 @@ int seq_frame_store(void)
 	return 0;
    }
 
+   clock_gettime(CLOCK_MONOTONIC_RAW, &time_now);
+   
    int most_recent_idx = (motion_buffer.tail_idx - 1 + motion_buffer.ring_size) % motion_buffer.ring_size;
    cnt=save_image(motion_buffer.frames[most_recent_idx], HRES*VRES, &time_now);
    
@@ -199,11 +201,11 @@ int seq_frame_store(void)
 
     if(save_framecnt > 0)
     {	
-        clock_gettime(CLOCK_MONOTONIC, &time_now);
+        //clock_gettime(CLOCK_MONOTONIC, &time_now);
         fnow = (double)time_now.tv_sec + (double)time_now.tv_nsec / 1000000000.0;
                 //printf(" saved at %lf, @ %lf FPS\n", (fnow-fstart), (double)(process_framecnt+1) / (fnow-fstart));
 
-        syslog(LOG_CRIT, "[COURSE #:%d][Final Project][Frame Count:%d][Image Capture Start Time:%lf seconds]", COURSE, save_framecnt, (fnow-fstart));
+        syslog(LOG_CRIT, "[COURSE #:%d][Final Project][Frame Count:%d][Image Capture Start Time:%.6lf seconds]", COURSE, save_framecnt, (fnow-fstart));
     }
     else 
     {
