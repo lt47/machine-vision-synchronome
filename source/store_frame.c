@@ -186,6 +186,11 @@ int seq_frame_store(void)
 
    //cnt=save_image(scratchpad_buffer, HRES*VRES*PIXEL_SIZE, &time_now);   
    // Get the index of the most recent frame in motion_buffer
+
+   if (motion_buffer.count < 2){
+	return 0;
+   }
+
    int most_recent_idx = (motion_buffer.tail_idx - 1 + motion_buffer.ring_size) % motion_buffer.ring_size;
    cnt=save_image(motion_buffer.frames[most_recent_idx], HRES*VRES, &time_now);
    

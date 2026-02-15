@@ -68,7 +68,6 @@ static int read_frame(void)
     read_framecnt++;
 
     //printf("frame %d ", read_framecnt);
-
     if(read_framecnt == 0) 
     {
         clock_gettime(CLOCK_MONOTONIC, &time_start);

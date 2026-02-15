@@ -116,7 +116,7 @@ int process_motion_detection(const unsigned char *current_frame, int frame_size)
     printf("Motion detection: diffsum=%u, percentage=%.3f%%", diffsum, diff_percentage);
 
     // Check if difference exceeds threshold
-    if (diff_percentage > 0.5)
+    if (diff_percentage > 0.4)
     {
         printf(" - SUCCESS: Motion detected!\n");
 
@@ -217,13 +217,15 @@ static int process_image(const void *p, int size)
 
 int seq_frame_process(void)
 {
-    int cnt;
+    int cnt = 0;
 
     printf("processing rb.tail=%d, rb.head=%d, rb.count=%d\n", ring_buffer.tail_idx, ring_buffer.head_idx, ring_buffer.count);
 
     ring_buffer.head_idx = (ring_buffer.head_idx + 2) % ring_buffer.ring_size;
 
-    cnt=process_image((void *)&(ring_buffer.save_frame[ring_buffer.head_idx].frame[0]), HRES*VRES*PIXEL_SIZE);
+    if (read_framecnt > 0){
+    	cnt=process_image((void *)&(ring_buffer.save_frame[ring_buffer.head_idx].frame[0]), HRES*VRES*PIXEL_SIZE);
+    }
 
     ring_buffer.head_idx = (ring_buffer.head_idx + 3) % ring_buffer.ring_size;
     ring_buffer.count = ring_buffer.count - 5;

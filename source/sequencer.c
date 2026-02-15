@@ -27,7 +27,7 @@ int abortS1 = FALSE, abortS2 = FALSE, abortS3 = FALSE;
 sem_t semS1, semS2, semS3;
 struct timespec start_time_val;
 double start_realtime;
-int frame_cap_frequency = 100, num_frames_to_capture = 180;
+int acquisition_frequency = 20, frame_cap_frequency = 100, num_frames_to_capture = 1800;
 
 
 static timer_t timer_1;
@@ -78,11 +78,11 @@ void Sequencer(int id)
 	// Release each service at a sub-rate of the generic sequencer rate
 
 	// Servcie_1 @ 5 Hz
-	if ((seqCnt % 20) == 0)
+	if ((seqCnt % acquisition_frequency) == 0)
 		sem_post(&semS1);
 
 	// Service_2 @ 1 Hz
-	if ((seqCnt % 100) == 0)
+	if ((seqCnt % frame_cap_frequency) == 0)
 		sem_post(&semS2);
 
 	// Service_3 @ 1 Hz
@@ -269,12 +269,12 @@ void log_sysinfo(){
 
 
 void program_usage(const char *prog){
-	printf("Usage: %s [option] | <SEQUENCER FREQUENCY> <FRAME CAPTURE FREQUENCY> <FRAMES TO CAPTURE>\n"
+	printf("Usage: %s [option] | <FRAME SAVE FREQUENCY> \n"
 			"\n"
 			"Options:\n"
 			"  -h         Show this help and exit\n"
 			"  --help         Show this help and exit\n"
-			"<FRAME CAPTURE FREQUENCY> is the number of herz to divide by the orchestrating frequncer i.e. 100 / 100 indicates a 1Hz rate. Enter 100 to receive a 1Hz rate."
+			"<FRAME SAVE FREQUENCY> is the frequency with which frames are saved and processed."
 			"\n"
 			"Example:\n"
 			"  %s 100 1 1800\n",
@@ -291,20 +291,21 @@ void main(int argc, char *argv[])
 	for (int i=1; i < argc; i++){
 		// Get value with failure detection.	
 		val = strtol (argv[i], &next, 10);
-		switch(i){
+		switch(i){	
 			case 1: 
 				if ((next != argv[i]) || (*next == '\0')) {
-					frame_cap_frequency = val;
+					if (val == 10){
+						acquisition_frequency = 5;
+						frame_cap_frequency = 10;
+					}
+					else{
+						continue;
+						}
 				} else {
 					program_usage(argv[0]);
 				}
 				break;
-			case 2: 
-				if ((next != argv[i]) || (*next == '\0')) {
-					num_frames_to_capture = val;
-				} else {
-					program_usage(argv[0]);
-				}
+			default:
 				break;
 		}
 	}
