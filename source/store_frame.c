@@ -83,7 +83,7 @@ static void dump_ppm(const void *p, int size, unsigned int tag, struct timespec 
 
     clock_gettime(CLOCK_MONOTONIC, &time_now);
     fnow = (double)time_now.tv_sec + (double)time_now.tv_nsec / 1000000000.0;
-    printf("Frame written to flash at %lf, %d, bytes\n", (fnow-fstart), total);
+    //printf("Frame written to flash at %lf, %d, bytes\n", (fnow-fstart), total);
 
     close(dumpfd);
     
@@ -115,7 +115,7 @@ static void dump_pgm(const void *p, int size, unsigned int tag, struct timespec 
 
     clock_gettime(CLOCK_MONOTONIC, &time_now);
     fnow = (double)time_now.tv_sec + (double)time_now.tv_nsec / 1000000000.0;
-    printf("Frame written to flash at %lf, %d, bytes\n", (fnow-fstart), total);
+    //printf("Frame written to flash at %lf, %d, bytes\n", (fnow-fstart), total);
 
     close(dumpfd);
     
@@ -131,14 +131,14 @@ static int save_image(const void *p, int size, struct timespec *frame_time)
     // Next line should prob be a global var 
     int most_recent_idx = (motion_buffer.tail_idx - 1 + motion_buffer.ring_size) % motion_buffer.ring_size;
     save_framecnt++;
-    printf("save frame %d: ", save_framecnt);
+    //printf("save frame %d: ", save_framecnt);
     
 
 #ifdef DUMP_FRAMES	
 
     if(fmt.fmt.pix.pixelformat == V4L2_PIX_FMT_GREY)
     {
-        printf("Dump graymap as-is size %d\n", size);
+        //printf("Dump graymap as-is size %d\n", size);
        //dump_pgm(frame_ptr, size, save_framecnt, frame_time);
         dump_pgm(motion_buffer.frames[most_recent_idx], size, save_framecnt, frame_time);
     }
@@ -151,14 +151,14 @@ static int save_image(const void *p, int size, struct timespec *frame_time)
         if(save_framecnt > 0) 
         {
             dump_ppm(frame_ptr, ((size*6)/4), save_framecnt, frame_time);
-            printf("Dump YUYV converted to RGB size %d\n", size);
+            //printf("Dump YUYV converted to RGB size %d\n", size);
         }
 #elif defined(COLOR_CONVERT_GRAY)
         if(save_framecnt > 0)
         {  
             dump_pgm(motion_buffer.frames[most_recent_idx], HRES*VRES, save_framecnt, frame_time);
            // dump_pgm(frame_ptr, (size/2), process_framecnt, frame_time);
-            printf("Dump YUYV converted to YY size %d\n", HRES*VRES);
+           // printf("Dump YUYV converted to YY size %d\n", HRES*VRES);
         }
 #endif
 
@@ -194,20 +194,20 @@ int seq_frame_store(void)
    int most_recent_idx = (motion_buffer.tail_idx - 1 + motion_buffer.ring_size) % motion_buffer.ring_size;
    cnt=save_image(motion_buffer.frames[most_recent_idx], HRES*VRES, &time_now);
    
-   printf("save_framecnt=%d ", save_framecnt);
+   //printf("save_framecnt=%d ", save_framecnt);
 
 
     if(save_framecnt > 0)
     {	
         clock_gettime(CLOCK_MONOTONIC, &time_now);
         fnow = (double)time_now.tv_sec + (double)time_now.tv_nsec / 1000000000.0;
-                printf(" saved at %lf, @ %lf FPS\n", (fnow-fstart), (double)(process_framecnt+1) / (fnow-fstart));
+                //printf(" saved at %lf, @ %lf FPS\n", (fnow-fstart), (double)(process_framecnt+1) / (fnow-fstart));
 
         syslog(LOG_CRIT, "[COURSE #:%d][Final Project][Frame Count:%d][Image Capture Start Time:%lf seconds]", COURSE, save_framecnt, (fnow-fstart));
     }
     else 
     {
-        printf("at %lf\n", fnow-fstart);
+       // printf("at %lf\n", fnow-fstart);
     }
 
     return cnt;

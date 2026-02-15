@@ -94,7 +94,7 @@ int process_motion_detection(const unsigned char *current_frame, int frame_size)
         motion_buffer.tail_idx = (motion_buffer.tail_idx + 1) % motion_buffer.ring_size;
         motion_buffer.count++;
 
-        printf("Motion detection: First frame stored (no comparison yet)\n");
+        //printf("Motion detection: First frame stored (no comparison yet)\n");
         return 0;
     }
 
@@ -113,12 +113,12 @@ int process_motion_detection(const unsigned char *current_frame, int frame_size)
     max_possible_diff = frame_size * 255;
     diff_percentage = (double)diffsum / (double)max_possible_diff * 100.0;
 
-    printf("Motion detection: diffsum=%u, percentage=%.3f%%", diffsum, diff_percentage);
+    //printf("Motion detection: diffsum=%u, percentage=%.3f%%", diffsum, diff_percentage);
 
     // Check if difference exceeds threshold
     if (diff_percentage > 0.4)
     {
-        printf(" - SUCCESS: Motion detected!\n");
+        //printf(" - SUCCESS: Motion detected!\n");
 
         // Store current frame for next comparison
         memcpy(motion_buffer.frames[current_idx], current_frame, frame_size);
@@ -131,7 +131,7 @@ int process_motion_detection(const unsigned char *current_frame, int frame_size)
     }
     else
     {
-        printf(" - No significant motion\n");
+        //printf(" - No significant motion\n");
 
         // Store current frame for next comparison
         memcpy(motion_buffer.frames[current_idx], current_frame, frame_size);
@@ -165,11 +165,11 @@ static int process_image(const void *p, int size)
     unsigned char *frame_ptr = (unsigned char *)p;
 
     process_framecnt++;
-    printf("process frame %d: ", process_framecnt);
+    //printf("process frame %d: ", process_framecnt);
     
     if(fmt.fmt.pix.pixelformat == V4L2_PIX_FMT_GREY)
     {
-        printf("NO PROCESSING for graymap as-is size %d\n", size);
+        //printf("NO PROCESSING for graymap as-is size %d\n", size);
     }
 
     else if(fmt.fmt.pix.pixelformat == V4L2_PIX_FMT_YUYV)
@@ -219,7 +219,7 @@ int seq_frame_process(void)
 {
     int cnt = 0;
 
-    printf("processing rb.tail=%d, rb.head=%d, rb.count=%d\n", ring_buffer.tail_idx, ring_buffer.head_idx, ring_buffer.count);
+    //printf("processing rb.tail=%d, rb.head=%d, rb.count=%d\n", ring_buffer.tail_idx, ring_buffer.head_idx, ring_buffer.count);
 
     ring_buffer.head_idx = (ring_buffer.head_idx + 2) % ring_buffer.ring_size;
 
@@ -231,17 +231,17 @@ int seq_frame_process(void)
     ring_buffer.count = ring_buffer.count - 5;
 
      	
-    printf("rb.tail=%d, rb.head=%d, rb.count=%d ", ring_buffer.tail_idx, ring_buffer.head_idx, ring_buffer.count);
+   // printf("rb.tail=%d, rb.head=%d, rb.count=%d ", ring_buffer.tail_idx, ring_buffer.head_idx, ring_buffer.count);
        
     if(process_framecnt > 0)
     {	
         clock_gettime(CLOCK_MONOTONIC, &time_now);
         fnow = (double)time_now.tv_sec + (double)time_now.tv_nsec / 1000000000.0;
-                printf(" processed at %lf, @ %lf FPS\n", (fnow-fstart), (double)(process_framecnt+1) / (fnow-fstart));
+                //printf(" processed at %lf, @ %lf FPS\n", (fnow-fstart), (double)(process_framecnt+1) / (fnow-fstart));
     }
     else 
     {
-        printf("at %lf\n", fnow-fstart);
+       // printf("at %lf\n", fnow-fstart);
     }
 
     return cnt;

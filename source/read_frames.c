@@ -118,7 +118,7 @@ int seq_frame_read(void)
     }
     else 
     {
-        printf("at %lf\n", fnow);
+       // printf("at %lf\n", fnow);
     }
 
     if (-1 == xioctl(camera_device_fd, VIDIOC_QBUF, &frame_buf))
