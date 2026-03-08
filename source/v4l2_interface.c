@@ -63,18 +63,9 @@ unsigned int n_buffers;
  * When zero, the existing driver format is preserved. */
 int force_format = 1;
 
-/*
- * buffer - User-space tracking record for a single kernel mmap region.
- *
- * Members:
- *   start  - Virtual address returned by mmap().
- *   length - Byte length of the mapped region (from VIDIOC_QUERYBUF).
- */
-struct buffer
-{
-    void *start;
-    size_t length;
-};
+/* struct buffer is defined in v4l2_interface.h and shared across all
+ * pipeline modules. The definition was removed from this file to eliminate
+ * the redefinition error that occurred when the header was included. */
 
 /* Floating-point timestamps (seconds since epoch on CLOCK_MONOTONIC):
  *   fnow   - most recently sampled time
