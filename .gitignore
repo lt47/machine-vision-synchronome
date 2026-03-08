@@ -59,4 +59,4 @@ frames/*.ppm
 frames/*.pgm
 
 # ide stuff
-.vscode
+.vscode/
