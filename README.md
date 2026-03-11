@@ -1,5 +1,9 @@
 # machine-vision-synchronome
 
+## Project Overview 
+
+[Project Overview Wiki Page](https://github.com/lt47/machine-vision-synchronome/wiki/Project-Overview)
+
 ## Background
 
 The inspiration for this project is the Shortt-Synchronome free pendulum clock is a complex precision electromechanical clock invented in 1921 by William Hamilton Shortt. It was designed to be a more accurate clock than the earth itself.
