@@ -1,6 +1,6 @@
 INCLUDE_DIRS = 
 LIB_DIRS = 
-CC=gcc
+CC ?= gcc
 
 CDEFS=
 CFLAGS= -O0 -g $(INCLUDE_DIRS) $(CDEFS)
@@ -21,7 +21,10 @@ clean:
 sequencer: $(OBJS)
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ $(OBJS) -lpthread -lrt
 
-object/%.o: source/%.c
+object/%.o: source/%.c | object
 	$(CC) $(CFLAGS) -c $< -o $@
+
+object:
+	mkdir -p $@
 
 depend:
