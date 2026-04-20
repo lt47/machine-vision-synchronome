@@ -131,7 +131,8 @@ int seq_frame_read(void)
 
     rc = select(camera_device_fd + 1, &fds, NULL, NULL, &tv);
 
-    read_frame();
+    if (!read_frame())
+        return 0;
 
     /* Copy raw pixel data from the kernel mmap region into the ring buffer's
      * tail slot. The ring buffer provides a user-space copy so the driver
